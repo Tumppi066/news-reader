@@ -4,5 +4,5 @@ from speech import play_audio_for
 from rss import get_feed_for
 
 feed = get_feed_for(24)
-text = get_summary_for(feed)
+text = get_summary_for(feed, "gemma")
 play_audio_for(text)

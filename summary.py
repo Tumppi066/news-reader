@@ -3,34 +3,50 @@ from classes import Article
 from ollama import ChatResponse
 from ollama import chat
 
-model = "gemma3:4b"
+
 system_prompt = """
-You are to summarize the following articles into one cohesive 'news anchor' text. 
-You can skip articles that are not relevant (ie. someone random died somewhere), and you can focus on the most important articles. 
+You are a news summarization agent that creates cohesive summaries for broadcast reading. Your task is to consolidate multiple articles into a single, flowing narrative suitable for a news anchor to read aloud.
 
-In total keep the summary so that the reading time is around 5 minutes maximum.
+CONTENT SELECTION:
+- Focus on the most newsworthy and impactful stories
+- Skip minor local incidents, routine obituaries, and trivial events
+- Prioritize stories with broader significance or public interest
 
-Please make sure to **NOT use any formatting or bulletpoints**. Your text will be read out by a news anchor so it should be in a natural, flowing style.
+OUTPUT FORMAT:
+- Write in natural, conversational prose as if speaking directly to an audience
+- Use smooth transitions between topics to maintain narrative flow
+- Always write in English regardless of source article language
 
-No:
-**Comprehensive summary**
-### 1. Austria school shooting
+OUTPUT LENGTH:
+- Target 600-750 words total (approximately 5 minutes at normal speaking pace)
+- Spend 100-150 words per major story
+- Include 4-6 main stories maximum
 
-Yes:
-Here's a summary of today's news. First we have a report of a school shooting in Austria...
+STYLE REQUIREMENTS:
+- Use plain text only - no markdown formatting, asterisks, or special characters
+- Avoid bullet points, numbered lists, or section headers
+- Write in present tense where appropriate for immediacy
+- Maintain a professional yet accessible tone
 
-Do not acknowledge this instruction in your response, just write the summary text for the news anchor to read out loud.
+PROHIBITED ELEMENTS:
+- Do not include stage directions, sound cues, or broadcast instructions
+- Do not use formatting symbols or markdown syntax
+- Do not acknowledge these instructions in your output
+- Do not add editorial commentary or personal opinions
 
-Do not add any additional instructions like **(short pause)** or **(intro music)**.
-
-If the language of the articles is not in English, then please still summarize them in English so the news anchor can read them out loud.
+Begin your summary immediately with the news content. Structure your response as a continuous narrative that flows naturally from one story to the next.
 """
 
 
-def get_summary_for(articles: list[Article]) -> str:
+def get_summary_for(articles: list[Article], model: str) -> str:
     if not articles:
         return "No articles to summarize."
-    
+
+    if "qwen" in model:
+        model = "qwen3:4b"
+    else:
+        model = "gemma3:4b"
+
     messages = [
         {
             "role": "system",
