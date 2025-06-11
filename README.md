@@ -20,6 +20,7 @@ pip install -r requirements.txt
 Just run `python main.py` in the source directory and the script will fetch the latest articles. This project has no user interface, so you will have to modify the `rss.py` file if you want to change RSS feeds. You can change the model in the `summary.py` file.
 
 ## Example
-Below is an audio file with the default RSS feeds and the default model (`gemma3:4b`).
+Below is a video with the default RSS feeds and model (`gemma3:4b`, `af_heart`).
 
-[Example Audio](examples/example-11-06-25.mp3)
+https://github.com/user-attachments/assets/21559967-9d25-4509-86f5-38b7105b746b
+
